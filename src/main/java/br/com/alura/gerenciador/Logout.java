@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,19 +16,9 @@ public class Logout extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Cookie cookie = new Cookies(req.getCookies()).buscaUsuarioLogado();
-		
+		req.getSession().removeAttribute("usuario.logado");
 		PrintWriter writer = resp.getWriter();
-
-		if(cookie == null) {
-			writer.println("<html><body>usuario não estava logado</body></html>");
-			return; 
-		}
-		
 		writer.println("<html><body>Deslogado com sucesso</body></html>");
-		cookie.setMaxAge(0);
-		resp.addCookie(cookie);
-				
 	}
 	
 }
