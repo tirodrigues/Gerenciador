@@ -30,6 +30,7 @@ public class Login extends HttpServlet {
 		}
 		else {
 			Cookie cookie = new Cookie("usuario.logado", usuario.getEmail());
+			cookie.setMaxAge(10 * 60);//10 minutos
 			resp.addCookie(cookie);
 			
 			writer.println("<html><body>Usuario Logado: "+usuario.getEmail()+"</body></html>");
