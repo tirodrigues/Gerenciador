@@ -1,8 +1,8 @@
 package br.com.alura.gerenciador;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +18,12 @@ public class NovaEmpresa extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String empresa = req.getParameter("nome");
-		new EmpresaDAO().adiciona(new Empresa(empresa));
+		Empresa empresa = new Empresa(req.getParameter("nome"));
+		new EmpresaDAO().adiciona(empresa);
 		
-		PrintWriter writer = resp.getWriter();
-		writer.println("<html><body>Empresa adicionada: " + empresa +" </body></html>");
+		req.setAttribute("empresa", empresa);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/paginas/novaEmpresa.jsp");
+		dispatcher.forward(req, resp);
 	}
 	
 }
